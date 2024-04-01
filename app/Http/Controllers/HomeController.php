@@ -28,4 +28,22 @@ class HomeController extends Controller
         ];
         return view('content/suratpermohonan/suratpermohonan', $data);
     }
+
+    public function dataktp()
+    {
+
+        $data = [
+            'title' => 'Data KTP',
+            'cardTitle' => 'Masukan Scan KTP',
+        ];
+        return view('content/ktp/form', $data);
+    }
+
+    public function hasilpermohonan(Request  $request)
+    {
+        $data = $request->all();
+
+        // dd($data);
+        return view('content/suratpermohonan/hasil', $data);
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SuratPermohonan;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,9 +18,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
-Route::post('cek', [LoginController::class, 'cekLogin'])->name('cekLogin');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::post('cek', [LoginController::class, 'cekLogin'])->name('cekLogin');
 
 Route::get('dashboardAdmin', [HomeController::class, 'index'])->name('dashboardAdmin')->middleware('auth');
 Route::get('suratpermohonan', [HomeController::class, 'suratpermohonan'])->name('suratpermohonan')->middleware('auth');
-Route::post('/parse-pdf', [PDFController::class, 'parse'])->name('parse.pdf');
+Route::get('dataktp', [HomeController::class, 'dataktp'])->name('dataktp')->middleware('auth');
+
+Route::post('tambahPermohonan', [SuratPermohonan::class, 'tambahPermohonan'])->name('tambahPermohonan');
+
+
+Route::get('/hasilpermohonan', [HomeController::class, 'hasilpermohonan'])->name('hasilpermohonan');
+Route::post('parse-pdf', [PDFController::class, 'parse'])->name('parse.pdf')->middleware('auth');

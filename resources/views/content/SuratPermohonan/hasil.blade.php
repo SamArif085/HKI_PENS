@@ -1,3 +1,4 @@
+{{-- {{ dd($data) }} --}}
 @extends('layout.mainLayout')
 @section('content')
     <main id="main" class="main">
@@ -5,7 +6,7 @@
             <h1>{{ $data['cardTitle'] }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboardAdmin') }}">Home</a></li>
                     <li class="breadcrumb-item active">{{ $data['title'] }}</li>
                 </ol>
             </nav>
@@ -16,7 +17,8 @@
         <div class="d-flex flex-column align-items-center justify-content-center">
             <div class="card col-lg-6 mb-3" style="background-color: #5691cc">
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{ route('tambahPermohonan') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="mb-3 mt-3">
                             <label class="form-label" for="nama">Nama:</label>
                             <input class="form-control" type="text" id="nama"
@@ -38,9 +40,9 @@
                                 value="{{ $data['kuasa'] }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="telpon">Nomor Telepon/HP:</label>
-                            <input class="form-control"readonly type="text" id="telpon" name="telpon"
-                                value="{{ $data['telppon'] }}">
+                            <label class="form-label" for="telepon">Nomor Telepon/HP:</label>
+                            <input class="form-control"readonly type="text" id="telepon" name="telepon"
+                                value="{{ $data['telepon'] }}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email:</label>
@@ -66,12 +68,12 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="sejak_tanggal">Yang berlaku sejak tanggal:</label>
-                            <input class="form-control" readonly type="text" id="sejak_tanggal" name="sejak_tanggal"
+                            <input class="form-control" readonly type="date" id="sejak_tanggal" name="sejak_tanggal"
                                 value="{{ $data['sejak_tanggal'] }}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="sampai_tanggal">Sampai dengan tanggal:</label>
-                            <input class="form-control" readonly type="text" id="sampai_tanggal" name="sampai_tanggal"
+                            <input class="form-control" readonly type="date" id="sampai_tanggal" name="sampai_tanggal"
                                 value="{{ $data['sampai_tanggal'] }}">
                         </div>
                         <div class="mb-3 float-end">
