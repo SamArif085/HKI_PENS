@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
-class SuratPermohonan extends Controller
+class SuratPermohonanController extends Controller
 {
     public function tambahPermohonan(Request $request)
     {

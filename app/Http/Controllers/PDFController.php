@@ -19,18 +19,13 @@ class PDFController extends Controller
             $pages = $pdf->getPages();
 
             // $pattern = '/Nama\s*:\s*(.*?)\s*Perusahaan\/Badan Hukum\*\s*:\s*(.*?)\s*Alamat\s*:\s*(.*?)\s*Kuasa dan Alamat Kuasa\*\*\s*:\s*(.*?)\s*Nomor Telepon\/HP\s*:\s*(.*?)\s*Email\s*:\s*([^\s@]+@[^\s@]+\.[^\s@]+).*?Dengan ini mengajukan permohonan pencatatan perjanjian lisensi:\s*(.*?)\s+Antara \(Pemilik Hak\) : (.*?)\s+Dengan \(Penerima Hak\) : (.*?)\s*Yang berlaku sejak tanggal : (.*?)\s*Sampai dengan tanggal : ([^\n]+)/s';
-
             $pattern = '/Nama\s*:\s*(.*?)\s*Perusahaan\/Badan Hukum\*\s*:\s*(.*?)\s*Alamat\s*:\s*(.*?)\s*Kuasa dan Alamat Kuasa\*\*\s*:\s*(.*?)\s*Nomor Telepon\/HP\s*:\s*(.*?)\s*Email\s*:\s*([^\s@]+@[^\s@]+\.[^\s@]+).*?Dengan ini mengajukan permohonan pencatatan perjanjian lisensi:\s*(.*?)(?:\s*\.\s*){10,}\s+Antara \(Pemilik Hak\) : (.*?)\s*Dengan \(Penerima Hak\) : (.*?)\s*Yang berlaku sejak tanggal : (.*?)\s*Sampai dengan tanggal : ([^\n]+)/s';
 
-            // Variabel untuk menyimpan hasil parsing
             $nama = $perusahaan = $alamat = $kuasa = $telepon = $email = $lisensi = $pemilik_hak =  $penerima_hak =  $sejak_tanggal = $sampai_tanggal = $tanggal = $tanggal1 =  '';
 
-            // Loop melalui setiap halaman PDF
             foreach ($pages as $pageNumber => $page) {
-                // Dapatkan teks dari halaman PDF
                 $text = $page->getText();
                 if (preg_match($pattern, $text, $matches)) {
-                    // Memeriksa apakah $matches memiliki nilai
                     if (isset($matches[0])) {
                         $nama = $matches[1] ?? '';
                         $perusahaan = $matches[2] ?? '';
@@ -45,28 +40,23 @@ class PDFController extends Controller
                         $sampai_tanggal = $matches[11] ?? '';
 
                         $tanggalString = $sejak_tanggal;
-                        // Cek apakah string tanggal mengandung tanda hubung (-)
                         if (strpos($tanggalString, '-') !== false) {
-                            // Jika iya, formatnya adalah "d - m - Y"
-                            $tanggalString = str_replace(' ', '', $tanggalString); // Hapus spasi
+                            $tanggalString = str_replace(' ', '', $tanggalString);
                             $tanggal = Carbon::createFromFormat('d-m-Y', $tanggalString)->toDateString();
                         } else {
-                            // Jika tidak, maka coba format "d F Y"
                             $tanggal = Carbon::createFromFormat('d F Y', $tanggalString)->toDateString();
                         }
 
                         $tanggalString1 = $sampai_tanggal;
-                        // Cek apakah string tanggal mengandung tanda hubung (-)
                         if (strpos($tanggalString1, '-') !== false) {
-                            // Jika iya, formatnya adalah "d - m - Y"
-                            $tanggalString1 = str_replace(' ', '', $tanggalString1); // Hapus spasi
+                            $tanggalString1 = str_replace(' ', '', $tanggalString1);
                             $tanggal1 = Carbon::createFromFormat('d-m-Y', $tanggalString1)->toDateString();
                         } else {
-                            // Jika tidak, maka coba format "d F Y"
                             $tanggal1 = Carbon::createFromFormat('d F Y', $tanggalString1)->toDateString();
                         }
 
                         break;
+
                     } else {
                         print 'hasil kosong';
                         echo 'hasil kosong';

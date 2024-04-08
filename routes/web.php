@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SuratPermohonan;
+use App\Http\Controllers\SuratPermohonanController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +26,7 @@ Route::get('dashboardAdmin', [HomeController::class, 'index'])->name('dashboardA
 Route::get('suratpermohonan', [HomeController::class, 'suratpermohonan'])->name('suratpermohonan')->middleware('auth');
 Route::get('dataktp', [HomeController::class, 'dataktp'])->name('dataktp')->middleware('auth');
 
-Route::post('tambahPermohonan', [SuratPermohonan::class, 'tambahPermohonan'])->name('tambahPermohonan');
+Route::post('tambahPermohonan', [SuratPermohonanController::class, 'tambahPermohonan'])->name('tambahPermohonan');
 
 
 Route::get('/hasilpermohonan', [HomeController::class, 'hasilpermohonan'])->name('hasilpermohonan');
