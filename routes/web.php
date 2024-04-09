@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SuratPermohonanController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ScanCardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,6 @@ Route::post('tambahPermohonan', [SuratPermohonanController::class, 'tambahPermoh
 
 Route::get('/hasilpermohonan', [HomeController::class, 'hasilpermohonan'])->name('hasilpermohonan');
 Route::post('parse-pdf', [PDFController::class, 'parse'])->name('parse.pdf')->middleware('auth');
+
+Route::post('/scancard', [ScanCardController::class, 'scancard'])->name('scancard');
+Route::get('/hasilscan', [HomeController::class, 'hasilscan'])->name('hasilscan');

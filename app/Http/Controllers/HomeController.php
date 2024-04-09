@@ -46,4 +46,14 @@ class HomeController extends Controller
         // dd($data);
         return view('content/suratpermohonan/hasil', $data);
     }
+
+    public function hasilscan(Request  $request)
+    {
+        // Ambil data hasil scan dari request
+        $parsedText = $request->input('parsedText');
+        $error = $request->input('error');
+
+        // Tampilkan view 'hasilscan' dengan data hasil OCR atau pesan error
+        return view('content/ktp/hasil', compact('parsedText', 'error'));
+    }
 }
