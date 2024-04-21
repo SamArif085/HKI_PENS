@@ -11,7 +11,6 @@ class PDFController extends Controller
 {
     public function parse(Request $request)
     {
-        // Proses PDF yang diunggah
         if ($request->hasFile('pdf_file')) {
             $pdfFile = $request->file('pdf_file');
             $parser = new Parser();
@@ -56,7 +55,6 @@ class PDFController extends Controller
                         }
 
                         break;
-
                     } else {
                         print 'hasil kosong';
                         echo 'hasil kosong';
@@ -79,8 +77,8 @@ class PDFController extends Controller
                 'sejak_tanggal' => $tanggal,
                 'sampai_tanggal' => $tanggal1,
             ];
-            // dd($data);
-            return redirect()->route('hasilpermohonan', compact('data'));
+
+            return view('content.SuratPermohonan.hasil', compact('data'));
         }
 
         return back()->withErrors('Please upload a PDF file.');

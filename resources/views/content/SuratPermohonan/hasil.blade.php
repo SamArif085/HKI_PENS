@@ -1,5 +1,5 @@
-{{-- {{ dd($data) }} --}}
 @extends('layout.mainLayout')
+
 @section('content')
     <main id="main" class="main">
         <div class="pagetitle">

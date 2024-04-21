@@ -5,7 +5,7 @@
         @if (Auth::user()->role === 1)
             <a href="{{ route('dashboardAdmin') }}" class="logo d-flex justify-content-center">
                 <img src="{{ asset('img/Logo_PENS.png') }}" alt="logo-web">
-                <span class="d-none d-lg-block" style="color: #5691cc">Sentra HKI</span>
+                <span class="d-none d-lg-block" style="color: #5691cc ">Sentra HKI</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         @endif
