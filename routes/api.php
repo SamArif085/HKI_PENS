@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+// use App\Http\Controllers\api\ScanKTPAPIController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('hasil-scan-ktp', 'App\Http\Controllers\api\APIScanKTPController@scancard')->name('scancard');
+Route::post('submit-scan-ktp', 'App\Http\Controllers\api\APIScanKTPController@submit')->name('submit');

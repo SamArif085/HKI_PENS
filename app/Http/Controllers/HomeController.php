@@ -29,15 +29,15 @@ class HomeController extends Controller
         return view('content/suratpermohonan/suratpermohonan', $data);
     }
 
-    public function dataktp()
-    {
+    // public function dataktp()
+    // {
 
-        $data = [
-            'title' => 'Data KTP',
-            'cardTitle' => 'Masukan Scan KTP',
-        ];
-        return view('content/ktp/form', $data);
-    }
+    //     $data = [
+    //         'title' => 'Data KTP',
+    //         'cardTitle' => 'Masukan Scan KTP',
+    //     ];
+    //     return view('content/ktp/form', $data);
+    // }
 
     public function hasilpermohonan(Request  $request)
     {
@@ -47,11 +47,11 @@ class HomeController extends Controller
         return view('content/suratpermohonan/hasil', $data);
     }
 
-    public function hasilscan(Request  $request)
-    {
-        $parsedText = $request->input('parsedText');
-        $error = $request->input('error');
+    // public function hasilscan(Request  $request)
+    // {
+    //     $parsedText = $request->input('parsedText');
+    //     $error = $request->input('error');
 
-        return view('content/ktp/hasil', compact('parsedText', 'error'));
-    }
+    //     return view('content/ktp/hasil', compact('parsedText', 'error'));
+    // }
 }

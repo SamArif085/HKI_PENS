@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Smalot\PdfParser\Parser;
-use Carbon\Carbon;
-
 
 class PDFController extends Controller
 {
@@ -17,70 +15,112 @@ class PDFController extends Controller
             $pdf = $parser->parseFile($pdfFile);
             $pages = $pdf->getPages();
 
-            // $pattern = '/Nama\s*:\s*(.*?)\s*Perusahaan\/Badan Hukum\*\s*:\s*(.*?)\s*Alamat\s*:\s*(.*?)\s*Kuasa dan Alamat Kuasa\*\*\s*:\s*(.*?)\s*Nomor Telepon\/HP\s*:\s*(.*?)\s*Email\s*:\s*([^\s@]+@[^\s@]+\.[^\s@]+).*?Dengan ini mengajukan permohonan pencatatan perjanjian lisensi:\s*(.*?)\s+Antara \(Pemilik Hak\) : (.*?)\s+Dengan \(Penerima Hak\) : (.*?)\s*Yang berlaku sejak tanggal : (.*?)\s*Sampai dengan tanggal : ([^\n]+)/s';
-            $pattern = '/Nama\s*:\s*(.*?)\s*Perusahaan\/Badan Hukum\*\s*:\s*(.*?)\s*Alamat\s*:\s*(.*?)\s*Kuasa dan Alamat Kuasa\*\*\s*:\s*(.*?)\s*Nomor Telepon\/HP\s*:\s*(.*?)\s*Email\s*:\s*([^\s@]+@[^\s@]+\.[^\s@]+).*?Dengan ini mengajukan permohonan pencatatan perjanjian lisensi:\s*(.*?)(?:\s*\.\s*){10,}\s+Antara \(Pemilik Hak\) : (.*?)\s*Dengan \(Penerima Hak\) : (.*?)\s*Yang berlaku sejak tanggal : (.*?)\s*Sampai dengan tanggal : ([^\n]+)/s';
-
-            $nama = $perusahaan = $alamat = $kuasa = $telepon = $email = $lisensi = $pemilik_hak =  $penerima_hak =  $sejak_tanggal = $sampai_tanggal = $tanggal = $tanggal1 =  '';
+            $data = [];
+            $currentData = [];
 
             foreach ($pages as $pageNumber => $page) {
                 $text = $page->getText();
-                if (preg_match($pattern, $text, $matches)) {
-                    if (isset($matches[0])) {
-                        $nama = $matches[1] ?? '';
-                        $perusahaan = $matches[2] ?? '';
-                        $alamat = $matches[3] ?? '';
-                        $kuasa = $matches[4] ?? '';
-                        $telepon = $matches[5] ?? '';
-                        $email = $matches[6] ?? '';
-                        $lisensi = $matches[7] ?? '';
-                        $pemilik_hak = $matches[8] ?? '';
-                        $penerima_hak =  $matches[9] ?? '';
-                        $sejak_tanggal = $matches[10] ?? '';
-                        $sampai_tanggal = $matches[11] ?? '';
 
-                        $tanggalString = $sejak_tanggal;
-                        if (strpos($tanggalString, '-') !== false) {
-                            $tanggalString = str_replace(' ', '', $tanggalString);
-                            $tanggal = Carbon::createFromFormat('d-m-Y', $tanggalString)->toDateString();
-                        } else {
-                            $tanggal = Carbon::createFromFormat('d F Y', $tanggalString)->toDateString();
-                        }
-
-                        $tanggalString1 = $sampai_tanggal;
-                        if (strpos($tanggalString1, '-') !== false) {
-                            $tanggalString1 = str_replace(' ', '', $tanggalString1);
-                            $tanggal1 = Carbon::createFromFormat('d-m-Y', $tanggalString1)->toDateString();
-                        } else {
-                            $tanggal1 = Carbon::createFromFormat('d F Y', $tanggalString1)->toDateString();
-                        }
-
-                        break;
-                    } else {
-                        print 'hasil kosong';
-                        echo 'hasil kosong';
-                    }
+                // Parsing pencipta
+                preg_match_all('/I\.\s*Pencipta\s*:(.*?)(?=II|$)/s', $text, $matches, PREG_SET_ORDER);
+                // dd($text);
+                foreach ($matches as $match) {
+                    $currentData['pencipta'] = $this->parsePencipta($match[1]);
                 }
+
+                // Parsing pemegang hak cipta
+                preg_match_all('/II\.\s*Pemegang\s+Hak\s+Cipta\s*:(.*?)(?=III|$)/s', $text, $matches, PREG_SET_ORDER);
+                foreach ($matches as $match) {
+                    $currentData['pemegang_hak'] = $this->parsePemegangHak($match[1]);
+                }
+
+                // Parsing jenis ciptaan, tanggal dan tempat, dan uraian ciptaan
+                preg_match('/III\.\s*Jenis\s+dari\s+judul\s+ciptaan\s+yang\s+dimohonkan\s*:\s*([^IV]+)/s', $text, $matches);
+                $jenisCiptaan = trim($matches[1] ?? '');
+
+                preg_match('/Di\s+([^,\n\r]+,\s+\d+\s+\w+\s+\d+)/', $text, $matches);
+                $tanggalDanTempat = trim($matches[1] ?? '');
+
+
+
+                preg_match('/V\.\s*Uraian\s+ciptaan\s*:\s*(.*?)\s*(?=VI|IV|V\.|$)/s', $text, $matches);
+                $uraianCiptaan = trim($matches[1] ?? '');
+
+
+
+                // Combine jenis ciptaan, tanggal dan tempat, dan uraian ciptaan into currentData
+                $currentData['jenis_ciptaan'] = $jenisCiptaan;
+                $currentData['tanggal_dan_tempat'] = $tanggalDanTempat;
+                $currentData['uraian_ciptaan'] = $uraianCiptaan;
+
+                // Push currentData to data array and reset currentData
+                $data[] = $currentData;
+                $currentData = [];
             }
 
-            $data = [
-                'title' => 'Hasil Surat',
-                'cardTitle' => 'Hasil Surat',
-                'nama' => $nama,
-                'perusahaana' => $perusahaan,
-                'alamata' => $alamat,
-                'kuasa' => $kuasa,
-                'telepon' => $telepon,
-                'emails' => $email,
-                'lisensi' => $lisensi,
-                'pemilik_hak' => $pemilik_hak,
-                'penerima_hak'  => $penerima_hak,
-                'sejak_tanggal' => $tanggal,
-                'sampai_tanggal' => $tanggal1,
-            ];
-
-            return view('content.SuratPermohonan.hasil', compact('data'));
+            $hasilDokumen = ['data' => $data];
+            return redirect()->route('hasil-Dokumen', compact('hasilDokumen'));
         }
 
         return back()->withErrors('Please upload a PDF file.');
+    }
+
+    private function parsePencipta($text)
+    {
+        $no_hp = '';
+        $email = '';
+
+        preg_match('/1\.\s*Nama\s*:\s*([^\n]+)/', $text, $matches);
+        $nama = trim($matches[1] ?? '');
+
+        preg_match('/2\.\s*Kewarganegaraan\s*:\s*([^\n]+)/', $text, $matches);
+        $kewarganegaraan = trim($matches[1] ?? '');
+
+        preg_match('/3\.\s*Alamat\s*:\s*(.*?)(?:(?:\s*\d+\.|\z)(?!\s*No\. HP & E-mail))/', $text, $matches);
+        $alamat = isset($matches[1]) ? trim($matches[1]) : '';
+
+        preg_match('/5\.\s*No\. HP & E-mail\s*:\s*\+(\d+)\s*&\s*([^\n]+)/', $text, $matches);
+        if (isset($matches[1])) {
+            $no_hp = '+' . trim($matches[1]);
+            $email = trim($matches[2]);
+        } else {
+            preg_match('/5\.\s*No\. HP & E-mail\s*:\s*([^\n]+)/', $text, $matches);
+            if (isset($matches[1])) {
+                if (filter_var($matches[1], FILTER_VALIDATE_EMAIL)) {
+                    $email = trim($matches[1]);
+                } else {
+                    $no_hp = trim($matches[1]);
+                }
+            }
+        }
+        return [
+            'nama' => $nama,
+            'kewarganegaraan' => $kewarganegaraan,
+            'alamat' => $alamat,
+            'no_hp' => $no_hp,
+            'email' => $email,
+        ];
+    }
+
+    private function parsePemegangHak($text)
+    {
+        preg_match('/1\.\s*Nama\s*:\s*([^\n]+)/', $text, $matches);
+        $nama = trim($matches[1] ?? '');
+
+        preg_match('/2\.\s*Kewarganegaraan\s*:\s*([^\n]+)/', $text, $matches);
+        $kewarganegaraan = trim($matches[1] ?? '');
+
+        preg_match('/3\.\s*Alamat\s*:\s*([^\n]+)/', $text, $matches);
+        $alamat = trim($matches[1] ?? '');
+
+        preg_match('/No\. HP & E-mail\s*:\s*([^&]+)/', $text, $matches);
+        $email = trim($matches[1] ?? '');
+
+        return [
+            'nama' => $nama,
+            'kewarganegaraan' => $kewarganegaraan,
+            'alamat' => $alamat,
+            'email' => $email,
+        ];
     }
 }

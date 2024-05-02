@@ -35,17 +35,21 @@ class ScanCardController extends Controller
                     'name' => 'OCREngine',
                     'contents' => '2',
                 ],
+                [
+                    'name' => 'isTable',
+                    'contents' => 'true',
+                ],
             ],
         ]);
 
+
         $parsedResult  = json_decode($response->getBody()->getContents(), true);
+        // dd($parsedResult);
         $nik = $this->extractNIK($parsedResult);
         $nama = $this->extractName($parsedResult);
         $addressDetails = $this->extractAddressDetails($parsedResult);
 
-        return view('content.ktp.hasil', [
-            'title' => 'Hasil Scan KTP',
-            'cardTitle' => 'Hasil Scan KTP',
+        return redirect()->route('hasil-scan-ktp', [
             'nik' => $nik,
             'nama' => $nama,
             'addressDetails' => $addressDetails,
@@ -104,20 +108,14 @@ class ScanCardController extends Controller
 
     public function scanKtp(Request $request)
     {
-        // Lakukan pemindaian KTP dan ekstraksi informasi
         $parsedResult = $this->scanKtpAndExtractInfo($request);
-
-        // Ekstraksi NIK dan nama
         $nik = $this->extractNIK($parsedResult);
         $nama = $this->extractName($parsedResult);
 
         if (!$nik || !$nama) {
-            // Tampilkan notifikasi jika NIK atau nama tidak ditemukan
             return redirect()->back()->with('error', 'Data KTP tidak lengkap atau tidak ditemukan. Mohon unggah ulang KTP.');
         }
-
-        // Lanjutkan dengan menampilkan hasil pemindaian
-        return view('content.ktp.hasil', [
+        return redirect()->route('hasil-scan-ktp', [
             'nik' => $nik,
             'nama' => $nama,
         ]);
