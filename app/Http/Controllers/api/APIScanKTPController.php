@@ -91,28 +91,25 @@ class APIScanKTPController extends Controller
     {
         if (isset($parsedResult['ParsedResults'][0]['ParsedText'])) {
             $parsedText = $parsedResult['ParsedResults'][0]['ParsedText'];
-            preg_match_all('/Alamat(.*?)Agama/s', $parsedText, $matches, PREG_SET_ORDER);
-
-            $addressDetails = [];
-
-            foreach ($matches as $match) {
+            // dd($parsedText);
+            if (preg_match('/Alamat(.*?)Agama/s', $parsedText, $match)) {
                 $alamat = isset($match[1]) ? trim($match[1]) : null;
+                // dd($alamat);
+                if (preg_match('/RT\s*:?([\d\/]+).*?RW\s*:?([\d\/]+).*?(?:Kel(?:urahan)?\/Desa|Desa)\s*:?([^\n]+).*?Kecamatan\s*:?([^\n]+)/s', $alamat, $addressInfo)) {
+                    $rtRw = isset($addressInfo[1]) ? trim($addressInfo[1]) : null;
+                    $rw = isset($addressInfo[2]) ? trim($addressInfo[2]) : null;
+                    $kelDesa = isset($addressInfo[3]) ? trim($addressInfo[3]) : null;
+                    $kecamatan = isset($addressInfo[4]) ? trim($addressInfo[4]) : null;
+                    $rtRw = ($rtRw && $rw) ? $rtRw . '/' . $rw : ($rtRw ? $rtRw : $rw);
 
-                // preg_match('/RT\/RW\s*:?([\d\/]+).*?(?:Kel\/Desa|Kei\/Desa|Kelurahan\/Desa)\s*:?([\s\w]+).*?Kecamatan\s*:?([\s\w]+)/s', $alamat, $addressInfo);
-
-                $rtRw = isset($addressInfo[1]) ? trim($addressInfo[1]) : null;
-                $kelDesa = isset($addressInfo[2]) ? trim($addressInfo[2]) : null;
-                $kecamatan = isset($addressInfo[3]) ? trim($addressInfo[3]) : null;
-
-                $addressDetails[] = [
-                    'alamat' => $alamat,
-                    // 'rtRw' => $rtRw,
-                    // 'kelDesa' => $kelDesa,
-                    // 'kecamatan' => $kecamatan,
-                ];
+                    return [
+                        'alamat' => $alamat,
+                        'rtRw' => $rtRw,
+                        'kelDesa' => $kelDesa,
+                        'kecamatan' => $kecamatan,
+                    ];
+                }
             }
-
-            return $addressDetails;
         }
 
         return null;

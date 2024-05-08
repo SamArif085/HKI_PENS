@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class permohonan extends Model
+class DokumenPermohonanCipta extends Model
 {
     use HasFactory;
 
-    protected $table = 'permohonan';
+    protected $table = 'dokumen_pc';
 }

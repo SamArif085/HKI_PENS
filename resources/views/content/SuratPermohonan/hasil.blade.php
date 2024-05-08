@@ -11,64 +11,51 @@
     <div class="txt-dashboard">
         <h2>BERKAS DOKUMEN</h2>
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center">
-        <div class="card col-lg-12 mb-3" style="background-color: #5691cc">
-            <div class="card-body">
-                <form action="{{ route('submit') }}" method="POST" enctype="multipart/form-data">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nama Pencipta</th>
-                                <th>Kewarganegaraan Pencipta</th>
-                                <th>Alamat Pencipta</th>
-                                <th>Email Pencipta</th>
-                                <th>No.HP Pencipta</th>
-                                <th>Nama Pemegang Hak</th>
-                                <th>Kewarganegaraan Pemegang Hak</th>
-                                <th>Alamat Pemegang Hak</th>
-                                <th>Email Pemegang Hak</th>
-                                <th>Jenis Ciptaan</th>
-                                <th>Tanggal dan Tempat Diumumkan</th>
-                                <th>Uraian Ciptaan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($hasilDokumen['data'] as $item)
-                            <tr>
-                                <td><input class="form-control" type="text" name="nama_pencipta[]"
-                                        value="{{ $item['pencipta']['nama'] }}"></td>
-                                <td><input class="form-control" type="text" name="kewarganegaraan_pencipta[]"
-                                        value="{{ $item['pencipta']['kewarganegaraan'] }}"></td>
-                                <td><input class="form-control" type="text" name="alamat_pencipta[]"
-                                        value="{{ $item['pencipta']['alamat'] }}"></td>
-                                <td><input class="form-control" type="text" name="email_pencipta[]"
-                                        value="{{ $item['pencipta']['email'] }}"></td>
-                                <td><input class="form-control" type="text" name="email_pencipta[]"
-                                        value="{{ $item['pencipta']['no_hp'] }}"></td>
-                                <td><input class="form-control" type="text" name="nama_pemegang_hak[]"
-                                        value="{{ $item['pemegang_hak']['nama'] }}"></td>
-                                <td><input class="form-control" type="text" name="kewarganegaraan_pemegang_hak[]"
-                                        value="{{ $item['pemegang_hak']['kewarganegaraan'] }}"></td>
-                                <td><input class="form-control" type="text" name="alamat_pemegang_hak[]"
-                                        value="{{ $item['pemegang_hak']['alamat'] }}"></td>
-                                <td><input class="form-control" type="text" name="email_pemegang_hak[]"
-                                        value="{{ $item['pemegang_hak']['email'] }}"></td>
-                                <td><input class="form-control" type="text" name="jenis_ciptaan[]"
-                                        value="{{ $item['jenis_ciptaan'] }}"></td>
-                                <td><input class="form-control" type="text" name="tanggal_dan_tempat[]"
-                                        value="{{ $item['tanggal_dan_tempat'] }}"></td>
-                                <td><input class="form-control" type="text" name="uraian_ciptaan[]"
-                                        value="{{ $item['uraian_ciptaan'] }}"></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="mb-3 float-end">
-                        {{-- <a href="{{ route('suratpermohonan') }}" class="btn btn-primary">Kembali</a> --}}
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </form>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body mt-2">
+                <table class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>Nama Pencipta</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($hasilDokumen['data'] as $item)
+                        <tr>
+                            <td>{{ $item['pencipta']['nama'] }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-detail" data-nama="{{ $item['pencipta']['nama'] }}"
+                                    data-kewarganegaraan="{{ $item['pencipta']['kewarganegaraan'] }}"
+                                    data-alamat-pencipta="{{ $item['pencipta']['alamat'] }}"
+                                    data-email-pencipta="{{ $item['pencipta']['email'] }}"
+                                    data-no-hp-pencipta="{{ $item['pencipta']['no_hp'] }}"
+                                    data-nama-pemegang-hak="{{ $item['pemegang_hak']['nama'] }}"
+                                    data-kewarganegaraan-pemegang-hak="{{ $item['pemegang_hak']['kewarganegaraan'] }}"
+                                    data-alamat-pemegang-hak="{{ $item['pemegang_hak']['alamat'] }}"
+                                    data-email-pemegang-hak="{{ $item['pemegang_hak']['email'] }}"
+                                    data-jenis-ciptaan="{{ $item['jenis_ciptaan'] }}"
+                                    data-tanggal-dan-tempat="{{ $item['tanggal_dan_tempat'] }}"
+                                    data-uraian-ciptaan="{{ $item['uraian_ciptaan'] }}">
+                                    Detail
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="mb-3 float-end">
+                    {{-- <a href="{{ route('suratpermohonan') }}" class="btn btn-primary">Kembali</a> --}}
+                </div>
             </div>
         </div>
+    </div>
+    <div class="mb-3 float-end">
+        <form id="detailForm" action="{{ route('submit-dokumen') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" id="detailId" name="id">
+            {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}
+        </form>
     </div>
 </main><!-- End #main -->

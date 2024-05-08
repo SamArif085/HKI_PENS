@@ -23,14 +23,14 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    {{--
+
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="vendor/quill/quill.snow.css" rel="stylesheet">
     <link href="vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="vendor/simple-datatables/style.css" rel="stylesheet"> --}}
+    <link href="vendor/simple-datatables/style.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/boxicons/css/boxicons.min.css') }}">
@@ -38,13 +38,22 @@
     <link rel="stylesheet" href="{{ asset('vendor/quill/quill.bubble.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/simple-datatables/style.css') }}">
+
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.0.7/datatables.min.css" rel="stylesheet">
     <!-- Template Main CSS File -->
-    {{--
-    <link href="css/style.css" rel="stylesheet"> --}}
+
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <style>
         .form-label {
             color: white;
+        }
+
+        .my-custom-popup-class {
+            width: 1000px !important;
+        }
+
+        .my-custom-content-class {
+            width: 1000px !important;
         }
     </style>
 </head>

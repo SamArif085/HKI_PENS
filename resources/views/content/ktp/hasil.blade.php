@@ -13,48 +13,43 @@
     <div class="txt-dashboard">
         <h2>BERKAS DOKUMEN</h2>
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center">
-        <div class="card col-lg-12 mb-3" style="background-color: #5691cc">
-            <div class="card-body">
-                <form action="{{ route('submit') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>NIK</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
-                                {{-- <th>RT/RW</th>
-                                <th>Kelurahan/Desa</th>
-                                <th>Kecamatan</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                            <tr>
-                                <td><input class="form-control" type="text" name="nik[]"
-                                        value="{{ $item['nik'] ?? '' }}"></td>
-                                <td><input class="form-control" type="text" name="nama[]"
-                                        value="{{ $item['nama'] ?? '' }}"></td>
-                                <td><input class="form-control" type="text" name="alamat[]"
-                                        value="{{ $item['addressDetails']['alamat'] ?? '' }}"></td>
-                                {{-- <td><input class="form-control" type="text" name="rtRw[]"
-                                        value="{{ $item['addressDetails']['rtRw'] ?? '' }}"></td>
-                                <td><input class="form-control" type="text" name="kelDesa[]"
-                                        value="{{ $item['addressDetails']['kelDesa'] ?? '' }}"></td>
-                                <td><input class="form-control" type="text" name="kecamatan[]"
-                                        value="{{ $item['addressDetails']['kecamatan'] ?? '' }}"></td> --}}
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                    <div class="mb-3 float-end">
-                        {{-- <a href="{{ route('suratpermohonan') }}" class="btn btn-primary">Kembali</a> --}}
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </form>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body mt-2">
+                <table class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>NIK</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $item)
+                        <tr>
+                            <td>{{ $item['nik'] ?? '' }}</td>
+                            <td> <button class="btn btn-primary btn-detail" data-nik="{{ $item['nik'] ?? '' }}"
+                                    data-nama="{{ $item['nama'] ?? '' }}"
+                                    data-alamat_lkp="{{ $item['addressDetails']['alamat'] ?? '' }}"
+                                    data-rtrw="{{ $item['addressDetails']['rtRw'] ?? '' }}"
+                                    data-keldesa="{{ $item['addressDetails']['kelDesa'] ?? '' }}"
+                                    data-kecamatan="{{ $item['addressDetails']['kecamatan'] ?? '' }}">
+                                    Detail</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="mb-3 float-end">
+                    {{-- <a href="{{ route('suratpermohonan') }}" class="btn btn-primary">Kembali</a> --}}
+                </div>
             </div>
         </div>
+    </div>
+    <div class="mb-3 float-end">
+        <form id="detailForm" action="{{ route('submit-dokumen') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" id="detailId" name="id">
+            {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}
+        </form>
     </div>
 </main>

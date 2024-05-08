@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('hasil-scan-ktp', 'App\Http\Controllers\api\APIScanKTPController@scancard')->name('scancard');
 Route::post('submit-scan-ktp', 'App\Http\Controllers\api\APIScanKTPController@submit')->name('submit');
+Route::post('submit-scan-dokumen', 'App\Http\Controllers\api\ApiScanDokumenController@submitDokumen')->name('submit-dokumen');

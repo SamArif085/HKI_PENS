@@ -13,19 +13,20 @@ class SuratPermohonan extends Migration
      */
     public function up()
     {
-        Schema::create('permohonan', function (Blueprint $table) {
+        Schema::create('dokumen_pc', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('perusahaan');
-            $table->string('alamat');
-            $table->string('kuasaalamat');
-            $table->string('telepon');
-            $table->string('email');
-            $table->string('lisensi');
-            $table->string('pemilik_Hak');
-            $table->string('penerima_Hak');
-            $table->date('sejak_tanggal');
-            $table->date('sampai_tanggal');
+            $table->string('nama_pencipta')->nullable();
+            $table->string('wn_pencipta')->nullable();
+            $table->string('alamat_pencipta')->nullable();
+            $table->string('email_pencipta')->nullable();
+            $table->string('no_hp_pencipta')->nullable();
+            $table->string('nama_pg_hak')->nullable();
+            $table->string('wn_pg_hak')->nullable();
+            $table->string('alamat_pg_hak')->nullable();
+            $table->string('email_pg_hak')->nullable();
+            $table->string('jenis_cipta')->nullable();
+            $table->string('tgl_tempat')->nullable();
+            $table->text('uraian_cipta')->nullable();
             $table->timestamps();
         });
     }
@@ -37,6 +38,6 @@ class SuratPermohonan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permohonan');
+        Schema::dropIfExists('dokumen_pc');
     }
 }
