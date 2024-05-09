@@ -26,20 +26,24 @@
                         <tr>
                             <td>{{ $item['pencipta']['nama'] }}</td>
                             <td>
-                                <button class="btn btn-primary btn-detail" data-nama="{{ $item['pencipta']['nama'] }}"
-                                    data-kewarganegaraan="{{ $item['pencipta']['kewarganegaraan'] }}"
-                                    data-alamat-pencipta="{{ $item['pencipta']['alamat'] }}"
-                                    data-email-pencipta="{{ $item['pencipta']['email'] }}"
-                                    data-no-hp-pencipta="{{ $item['pencipta']['no_hp'] }}"
-                                    data-nama-pemegang-hak="{{ $item['pemegang_hak']['nama'] }}"
-                                    data-kewarganegaraan-pemegang-hak="{{ $item['pemegang_hak']['kewarganegaraan'] }}"
-                                    data-alamat-pemegang-hak="{{ $item['pemegang_hak']['alamat'] }}"
-                                    data-email-pemegang-hak="{{ $item['pemegang_hak']['email'] }}"
-                                    data-jenis-ciptaan="{{ $item['jenis_ciptaan'] }}"
-                                    data-tanggal-dan-tempat="{{ $item['tanggal_dan_tempat'] }}"
-                                    data-uraian-ciptaan="{{ $item['uraian_ciptaan'] }}">
-                                    Detail
-                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-detail"
+                                        data-nama="{{ $item['pencipta']['nama'] }}"
+                                        data-kewarganegaraan="{{ $item['pencipta']['kewarganegaraan'] }}"
+                                        data-alamat-pencipta="{{ $item['pencipta']['alamat'] }}"
+                                        data-email-pencipta="{{ $item['pencipta']['email'] }}"
+                                        data-no-hp-pencipta="{{ $item['pencipta']['no_hp'] }}"
+                                        data-nama-pemegang-hak="{{ $item['pemegang_hak']['nama'] }}"
+                                        data-kewarganegaraan-pemegang-hak="{{ $item['pemegang_hak']['kewarganegaraan'] }}"
+                                        data-alamat-pemegang-hak="{{ $item['pemegang_hak']['alamat'] }}"
+                                        data-email-pemegang-hak="{{ $item['pemegang_hak']['email'] }}"
+                                        data-jenis-ciptaan="{{ $item['jenis_ciptaan'] }}"
+                                        data-tanggal-dan-tempat="{{ $item['tanggal_dan_tempat'] }}"
+                                        data-uraian-ciptaan="{{ $item['uraian_ciptaan'] }}">
+                                        Detail
+                                    </button>
+                                    <button class="btn btn-danger btn-delete" style="margin-left: 5px;">Hapus</button>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

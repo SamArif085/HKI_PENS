@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+$(document).on('click', '.btn-delete', function () {
+    $(this).closest('tr').remove();
+});
+
 $(document).on('click', '.btn-detail', function () {
     var namaPencipta = $(this).data('nama');
     var kewarganegaraanPencipta = $(this).data('kewarganegaraan');
@@ -124,8 +128,8 @@ $(document).on('click', '.btn-detail', function () {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-
             button.removeClass('btn-primary').addClass('btn-success').text('Terkirim').prop('disabled', true);
+            button.next('.btn-delete').removeClass('btn-danger').addClass('btn-success').html('<i class="bi bi-check"></i>').prop('disabled', true);
 
             var formData = {
                 'namaPencipta': $('#editNamaPencipta').val(),

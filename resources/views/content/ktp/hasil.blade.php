@@ -20,6 +20,7 @@
                     <thead>
                         <tr>
                             <th>NIK</th>
+                            <th>Nama</th>
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -27,13 +28,13 @@
                         @foreach ($data as $item)
                         <tr>
                             <td>{{ $item['nik'] ?? '' }}</td>
-                            <td> <button class="btn btn-primary btn-detail" data-nik="{{ $item['nik'] ?? '' }}"
-                                    data-nama="{{ $item['nama'] ?? '' }}"
-                                    data-alamat_lkp="{{ $item['addressDetails']['alamat'] ?? '' }}"
-                                    data-rtrw="{{ $item['addressDetails']['rtRw'] ?? '' }}"
-                                    data-keldesa="{{ $item['addressDetails']['kelDesa'] ?? '' }}"
-                                    data-kecamatan="{{ $item['addressDetails']['kecamatan'] ?? '' }}">
-                                    Detail</button>
+                            <td>{{ $item['nama'] ?? '' }}</td>
+                            <td>
+                                <div class="btn-group"><button class="btn btn-primary btn-detail"
+                                        data-nik="{{ $item['nik'] ?? '' }}" data-nama="{{ $item['nama'] ?? '' }}"
+                                        data-alamat="{{ $item['addressDetails']['alamat'] ?? '' }}">Detail</button>
+                                    <button class="btn btn-danger btn-delete" style="margin-left: 5px;">Hapus</button>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -46,7 +47,7 @@
         </div>
     </div>
     <div class="mb-3 float-end">
-        <form id="detailForm" action="{{ route('submit-dokumen') }}" method="POST" enctype="multipart/form-data">
+        <form id="detailForm" action="{{ route('submit') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" id="detailId" name="id">
             {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}

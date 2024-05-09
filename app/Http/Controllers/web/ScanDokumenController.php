@@ -38,8 +38,8 @@ class ScanDokumenController extends Controller
     {
         $data = $request->all();
         $data['home'] = [
-            'title' => 'Data KTP',
-            'cardTitle' => 'Masukan Scan KTP',
+            'title' => 'Data Data Dokumen Permohonan',
+            'cardTitle' => 'Hasil Scan Dokumen Permohonan',
         ];
         $view = view('content/SuratPermohonan/hasil', $data);
         $put['title_content'] = 'Scan-KTP';
