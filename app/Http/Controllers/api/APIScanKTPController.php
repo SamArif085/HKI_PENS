@@ -38,7 +38,7 @@ class APIScanKTPController extends Controller
                     'name' => 'isTable',
                     'contents' => 'true',
                 ],
-            ],
+            ],'verify'=> false,
         ]);
         $parsedResults = json_decode($response->getBody()->getContents(), true);
         // dd($parsedResults);

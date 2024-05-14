@@ -62,56 +62,62 @@ $(document).on('click', '.btn-detail', function () {
 
     Swal.fire({
         title: 'Detail Data',
-        html: `<div class="row">
-        <div class="col-md-6">
-            <label class="form-label mt-3 mb-3" style="color: black;">Nama Pencipta</label>
+        html: 
+        `<div>
+            <div class="form-label mt-3 mb-3 text-start" style="color: black;">Nama Pencipta</div>
             <input class="form-control" type="text" id="editNamaPencipta" class="swal2-input" value="${namaPencipta}" placeholder="Nama Pencipta">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Kewarganegaraan Pencipta</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Kewarganegaraan Pencipta</div>
             <input class="form-control" type="text" id="editKewarganegaraanPencipta" class="swal2-input" value="${kewarganegaraanPencipta}" placeholder="Kewarganegaraan Pencipta">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Alamat Pencipta</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Alamat Pencipta</div>
             <input class="form-control" type="text" id="editAlamatPencipta" class="swal2-input" value="${alamatPencipta}" placeholder="Alamat Pencipta">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Email Pencipta</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Email Pencipta</div>
             <input class="form-control" type="text" id="editEmailPencipta" class="swal2-input" value="${emailPencipta}" placeholder="Email Pencipta">
 
-            <label style="color: black" class="form-label mt-3 mb-3">No. HP Pencipta</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">No. HP Pencipta</div>
             <input class="form-control" type="text" id="editNoHpPencipta" class="swal2-input" value="${noHpPencipta}" placeholder="No. HP Pencipta">
 
-        </div>
-        <div class="col-md-6 mb-4">
-            <label style="color: black" class="form-label mt-3 mb-3 ">Nama Pemegang Hak</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Nama Pemegang Hak</div>
             <input class="form-control" type="text" id="editNamaPemegangHak" class="swal2-input" value="${namaPemegangHak}" placeholder="Nama Pemegang Hak">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Kewarganegaraan Pemegang Hak</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Kewarganegaraan Pemegang Hak</div>
             <input class="form-control" type="text" id="editKewarganegaraanPemegangHak" class="swal2-input" value="${kewarganegaraanPemegangHak}" placeholder="Kewarganegaraan Pemegang Hak">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Alamat Pemegang Hak</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Alamat Pemegang Hak</div>
             <input class="form-control" type="text" id="editAlamatPemegangHak" class="swal2-input" value="${alamatPemegangHak}" placeholder="Alamat Pemegang Hak">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Email Pemegang Hak</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Email Pemegang Hak</div>
             <input class="form-control" type="text" id="editEmailPemegangHak" class="swal2-input" value="${emailPemegangHak}" placeholder="Email Pemegang Hak">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Tanggal & Tempat</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Tanggal & Tempat</div>
             <input class="form-control" type="text" id="editTanggalDanTempat" class="swal2-input" value="${tanggalDanTempat}" placeholder="Tanggal dan Tempat">
-        </div>
-        <div class="mb-4">
-            <label style="color: black" class="form-label mt-3 mb-3">Jenis Ciptaan</label>
+        
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Jenis Ciptaan</div>
             <input class="form-control" type="text" id="editJenisCiptaan" class="swal2-input" value="${jenisCiptaan}" placeholder="Jenis Ciptaan">
 
-            <label style="color: black" class="form-label mt-3 mb-3">Uraian Ciptaan</label>
+            <div style="color: black" class="form-label mt-3 mb-3 text-start">Uraian Ciptaan</div>
             <input class="form-control" type="text" id="editUraianCiptaan" class="swal2-input" value="${uraianCiptaan}" placeholder="Uraian Ciptaan">
         </div>
-        </div>`,
+        `,
         customClass: {
             popup: 'my-custom-popup-class',
             content: 'my-custom-content-class',
+            title: 'pb-4 bg-secondary text-light',
+            footer: 'mb-0 pb-4 bg-secondary ',
+            
         },
+        background: '#a3a3a3',
         showCloseButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
         focusConfirm: false,
-        confirmButtonText: 'Kirim',
+        footer:
+        '<div class="d-flex flex-row-reverse">' + 
+        '<button class="btn btn-danger ml-2" style="margin-left: 30px;" id="cancelButton">Cancel</button>'+ 
+        '<button class="btn btn-primary ml-2"  id="confirmButton">Send</button>'+ 
+        '</div>',
         preConfirm: () => {
             $(this).data('nama', $('#editNamaPencipta').val());
             $(this).data('kewarganegaraan', $('#editKewarganegaraanPencipta').val());
@@ -126,39 +132,75 @@ $(document).on('click', '.btn-detail', function () {
             $(this).data('tanggal-dan-tempat', $('#editTanggalDanTempat').val());
             $(this).data('uraian-ciptaan', $('#editUraianCiptaan').val());
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            button.removeClass('btn-primary').addClass('btn-success').text('Terkirim').prop('disabled', true);
-            button.next('.btn-delete').removeClass('btn-danger').addClass('btn-success').html('<i class="bi bi-check"></i>').prop('disabled', true);
-
-            var formData = {
-                'namaPencipta': $('#editNamaPencipta').val(),
-                'kewarganegaraanPencipta': $('#editKewarganegaraanPencipta').val(),
-                'alamatPencipta': $('#editAlamatPencipta').val(),
-                'emailPencipta': $('#editEmailPencipta').val(),
-                'noHpPencipta': $('#editNoHpPencipta').val(),
-                'namaPemegangHak': $('#editNamaPemegangHak').val(),
-                'kewarganegaraanPemegangHak': $('#editKewarganegaraanPemegangHak').val(),
-                'alamatPemegangHak': $('#editAlamatPemegangHak').val(),
-                'emailPemegangHak': $('#editEmailPemegangHak').val(),
-                'jenisCiptaan': $('#editJenisCiptaan').val(),
-                'tanggalDanTempat': $('#editTanggalDanTempat').val(),
-                'uraianCiptaan': $('#editUraianCiptaan').val()
-            };
-
-            console.log(formData);
-            $.ajax({
-                url: $('#detailForm').attr('action'),
-                type: $('#detailForm').attr('method'),
-                data: formData,
-                success: function (response) {
-                    console.log('Data berhasil dikirim');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Terjadi kesalahan: ', error);
-                }
-            });
-        }
     });
+    document.getElementById('cancelButton').addEventListener('click', () => {
+        Swal.close();
+    });
+    document.getElementById('confirmButton').addEventListener('click', () => {
+        var formData = {
+                        'namaPencipta': $('#editNamaPencipta').val(),
+                        'kewarganegaraanPencipta': $('#editKewarganegaraanPencipta').val(),
+                        'alamatPencipta': $('#editAlamatPencipta').val(),
+                        'emailPencipta': $('#editEmailPencipta').val(),
+                        'noHpPencipta': $('#editNoHpPencipta').val(),
+                        'namaPemegangHak': $('#editNamaPemegangHak').val(),
+                        'kewarganegaraanPemegangHak': $('#editKewarganegaraanPemegangHak').val(),
+                        'alamatPemegangHak': $('#editAlamatPemegangHak').val(),
+                        'emailPemegangHak': $('#editEmailPemegangHak').val(),
+                        'jenisCiptaan': $('#editJenisCiptaan').val(),
+                        'tanggalDanTempat': $('#editTanggalDanTempat').val(),
+                        'uraianCiptaan': $('#editUraianCiptaan').val()
+                    };
+        
+                    console.log(formData);
+                    $.ajax({
+                        url: $('#detailForm').attr('action'),
+                        type: $('#detailForm').attr('method'),
+                        data: formData,
+                        success: function (response) {
+                            console.log('Data berhasil dikirim');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Terjadi kesalahan: ', error);
+                        }
+                    });
+                    button.removeClass('btn-primary').addClass('btn-success').text('Terkirim').prop('disabled', true);
+                    button.next('.btn-delete').removeClass('btn-danger').addClass('btn-success').html('<i class="bi bi-check"></i>').prop('disabled', true);
+                    Swal.close();
+    });
+    // .then((result) => {
+    //     if (result.isConfirmed) {
+    //         button.removeClass('btn-primary').addClass('btn-success').text('Terkirim').prop('disabled', true);
+    //         button.next('.btn-delete').removeClass('btn-danger').addClass('btn-success').html('<i class="bi bi-check"></i>').prop('disabled', true);
+
+    //         var formData = {
+    //             'namaPencipta': $('#editNamaPencipta').val(),
+    //             'kewarganegaraanPencipta': $('#editKewarganegaraanPencipta').val(),
+    //             'alamatPencipta': $('#editAlamatPencipta').val(),
+    //             'emailPencipta': $('#editEmailPencipta').val(),
+    //             'noHpPencipta': $('#editNoHpPencipta').val(),
+    //             'namaPemegangHak': $('#editNamaPemegangHak').val(),
+    //             'kewarganegaraanPemegangHak': $('#editKewarganegaraanPemegangHak').val(),
+    //             'alamatPemegangHak': $('#editAlamatPemegangHak').val(),
+    //             'emailPemegangHak': $('#editEmailPemegangHak').val(),
+    //             'jenisCiptaan': $('#editJenisCiptaan').val(),
+    //             'tanggalDanTempat': $('#editTanggalDanTempat').val(),
+    //             'uraianCiptaan': $('#editUraianCiptaan').val()
+    //         };
+
+    //         console.log(formData);
+    //         $.ajax({
+    //             url: $('#detailForm').attr('action'),
+    //             type: $('#detailForm').attr('method'),
+    //             data: formData,
+    //             success: function (response) {
+    //                 console.log('Data berhasil dikirim');
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error('Terjadi kesalahan: ', error);
+    //             }
+    //         });
+    //     }
+    // });
 
 });
