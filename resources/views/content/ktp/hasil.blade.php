@@ -1,5 +1,3 @@
-{{-- {{ dd($data) }} --}}
-
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>{{ $data[0]['cardTitle'] }}</h1>
@@ -30,8 +28,9 @@
                             <td>{{ $item['nik'] ?? '' }}</td>
                             <td>{{ $item['nama'] ?? '' }}</td>
                             <td>
-                                <div class="btn-group"><button class="btn btn-primary btn-detail"
-                                        data-nik="{{ $item['nik'] ?? '' }}" data-nama="{{ $item['nama'] ?? '' }}"
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-detail" data-nik="{{ $item['nik'] ?? '' }}"
+                                        data-nama="{{ $item['nama'] ?? '' }}"
                                         data-alamat="{{ $item['addressDetails']['alamat'] ?? '' }}">Detail</button>
                                     <button class="btn btn-danger btn-delete" style="margin-left: 5px;">Hapus</button>
                                 </div>
@@ -41,7 +40,6 @@
                     </tbody>
                 </table>
                 <div class="mb-3 float-end">
-                    {{-- <a href="{{ route('suratpermohonan') }}" class="btn btn-primary">Kembali</a> --}}
                 </div>
             </div>
         </div>
@@ -50,7 +48,14 @@
         <form id="detailForm" action="{{ route('submit') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" id="detailId" name="id">
-            {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}
         </form>
     </div>
+
+    {{-- <div class="mb-3 float-end">
+        <form id="detailForm" action="{{ route('submit') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" id="detailId" name="id">
+            {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}
+        </form>
+    </div> --}}
 </main>

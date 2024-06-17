@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>HKI PENS | @if (isset($title_content))
@@ -49,11 +50,45 @@
         }
 
         .my-custom-popup-class {
-            width: 1000px !important;
+            width: 85% !important;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .my-custom-popup-class-edit-ktp {
+            width: 50% !important;
+            /* max-height: 65vh; */
+            overflow-y: auto;
+        }
+        .my-custom-popup-class-edit-dokumen {
+            width: 65% !important;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .my-custom-content-class {
             width: 1000px !important;
+        }
+        .my-custom-content-class {
+            width: 100% !important;
+        }
+
+        .swal2-popup .form-control {
+            font-size: 15px;
+
+        }
+
+        .modal-dialog {
+            max-width: 80%;
+
+            width: 50%;
+
+        }
+
+        .modal-body {
+            max-height: 70vh;
+
+            overflow-y: auto;
+
         }
     </style>
 </head>

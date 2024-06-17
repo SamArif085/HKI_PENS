@@ -59,7 +59,6 @@
         <form id="detailForm" action="{{ route('submit-dokumen') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" id="detailId" name="id">
-            {{-- <button id="detailBtn" type="button" class="btn btn-primary">Detail</button> --}}
         </form>
     </div>
-</main><!-- End #main -->
+</main>

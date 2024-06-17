@@ -15,6 +15,9 @@ class CreateScanKTPSTable extends Migration
     {
         Schema::create('ktp', function (Blueprint $table) {
             $table->id();
+            $table->string('nik');
+            $table->string('nama');
+            $table->string('alamat');
             $table->timestamps();
         });
     }

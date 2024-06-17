@@ -12,73 +12,73 @@ class ApiScanDokumenController extends Controller
     public function submitDokumen(Request $request)
     {
         $data = $request->all();
-        DB::table('dokumen_pc')->insert([
-            'nama_pencipta' => $data['namaPencipta'],
-            'wn_pencipta' => $data['kewarganegaraanPencipta'],
-            'alamat_pencipta' => $data['alamatPencipta'],
-            'email_pencipta' => $data['emailPencipta'],
-            'no_hp_Pencipta' => $data['noHpPencipta'],
-            'nama_pg_Hak' => $data['namaPemegangHak'],
-            'wn_pg_Hak' => $data['kewarganegaraanPemegangHak'],
-            'alamat_pg_hak' => $data['alamatPemegangHak'],
-            'email_pg_Hak' => $data['emailPemegangHak'],
-            'jenis_cipta' => $data['jenisCiptaan'],
-            'tgl_tempat' => $data['tanggalDanTempat'],
-            'uraian_cipta' => $data['uraianCiptaan'],
-        ]);
+        $existingData = DB::table('dokumen_pc')
+            ->where('nama_pencipta', $data['namaPencipta'])
+            ->first();
 
-        return redirect()->route('Scan-Dokumen');
+        if ($existingData) {
+            DB::table('dokumen_pc')
+                ->where('id', $existingData->id)
+                ->update([
+                    'nama_pencipta' => $data['namaPencipta'],
+                    'wn_pencipta' => $data['kewarganegaraanPencipta'],
+                    'alamat_pencipta' => $data['alamatPencipta'],
+                    'email_pencipta' => $data['emailPencipta'],
+                    'no_hp_Pencipta' => $data['noHpPencipta'],
+                    'nama_pg_Hak' => $data['namaPemegangHak'],
+                    'wn_pg_Hak' => $data['kewarganegaraanPemegangHak'],
+                    'alamat_pg_hak' => $data['alamatPemegangHak'],
+                    'email_pg_Hak' => $data['emailPemegangHak'],
+                    'jenis_cipta' => $data['jenisCiptaan'],
+                    'tgl_tempat' => $data['tanggalDanTempat'],
+                    'uraian_cipta' => $data['uraianCiptaan'],
+                ]);
+
+            $message = 'Data berhasil diperbarui.';
+        } else {
+            DB::table('dokumen_pc')->insert([
+                'nama_pencipta' => $data['namaPencipta'],
+                'wn_pencipta' => $data['kewarganegaraanPencipta'],
+                'alamat_pencipta' => $data['alamatPencipta'],
+                'email_pencipta' => $data['emailPencipta'],
+                'no_hp_Pencipta' => $data['noHpPencipta'],
+                'nama_pg_Hak' => $data['namaPemegangHak'],
+                'wn_pg_Hak' => $data['kewarganegaraanPemegangHak'],
+                'alamat_pg_hak' => $data['alamatPemegangHak'],
+                'email_pg_Hak' => $data['emailPemegangHak'],
+                'jenis_cipta' => $data['jenisCiptaan'],
+                'tgl_tempat' => $data['tanggalDanTempat'],
+                'uraian_cipta' => $data['uraianCiptaan'],
+            ]);
+
+            $message = 'Data berhasil disimpan.';
+        }
+
+        return response()->json(['message' => $message]);
     }
-    // public function submitDokumen(Request $request)
-    // {
-    //     // dd($data = $request->all());
-    //     $data = $request->all();
-    //     foreach ($data as $key => $value) {
-    //         if (is_array($value)) {
-    //             foreach ($value as $index => $val) {
-    //                 if ($val === '') {
-    //                     $data[$key][$index] = null;
-    //                 }
-    //             }
-    //         } else {
-    //             if ($value === '') {
-    //                 $data[$key] = null;
-    //             }
-    //         }
-    //     }
 
-    //     $namaPencipta = $data['namaPencipta'];
-    //     $wnPencipta = $data['kewarganegaraanPencipta'];
-    //     $alamatPencipta = $data['alamatPencipta'];
-    //     $emailPencipta = $data['emailPencipta'];
-    //     $no_hpPencipta =  $data['noHpPencipta'];
-    //     $nama_pg_Hak =  $data['namaPemegangHak'];
-    //     $wn_pg_Hak = $data['kewarganegaraanPemegangHak'];
-    //     $alamat_pg_hak = $data['alamatPemegangHak'];
-    //     $email_pg_Hak = $data['emailPemegangHak'];
-    //     $jenis_cipta = $data['jenisCiptaan'];
-    //     $tgl_tempat = $data['tanggalDanTempat'];
-    //     $uraian_cipta = $data['uraianCiptaan'];
+    public function edit(Request $request)
+    {
+        $id = $request->input('id');
+        $data = $request->all();
+        $updateData = [
+            'nama_pencipta' => $data['nama'],
+            'wn_pencipta' => $data['wn'],
+            'alamat_pencipta' => $data['alamat'],
+            'email_pencipta' => $data['email'],
+            'no_hp_pencipta' => $data['hp'],
+            'nama_pg_hak' => $data['namapghak'],
+            'wn_pg_hak' => $data['wnpghak'],
+            'alamat_pg_hak' => $data['alamatpghak'],
+            'email_pg_hak' => $data['emailpghak'],
+            'jenis_cipta' => $data['jenis'],
+            'tgl_tempat' => $data['tgl'],
+            'uraian_cipta' => $data['uraian'],
+        ];
+        DB::table('dokumen_pc')->where('id', $id)->update($updateData);
 
-    //     DB::transaction(function () use ($namaPencipta, $wnPencipta, $alamatPencipta, $emailPencipta, $no_hpPencipta, $nama_pg_Hak, $wn_pg_Hak, $alamat_pg_hak, $email_pg_Hak, $jenis_cipta, $tgl_tempat, $uraian_cipta) {
-    //         foreach ($namaPencipta as $key => $nama) {
-    //             DB::table('dokumen_pc')->insert([
-    //                 'nama_pencipta' => $nama,
-    //                 'wn_pencipta' => $wnPencipta[$key],
-    //                 'alamat_pencipta' => $alamatPencipta[$key],
-    //                 'email_pencipta' => $emailPencipta[$key],
-    //                 'no_hp_Pencipta' => $no_hpPencipta[$key],
-    //                 'nama_pg_Hak' => $nama_pg_Hak[$key],
-    //                 'wn_pg_Hak' => $wn_pg_Hak[$key],
-    //                 'alamat_pg_hak' => $alamat_pg_hak[$key],
-    //                 'email_pg_Hak' => $email_pg_Hak[$key],
-    //                 'jenis_cipta' => $jenis_cipta[$key],
-    //                 'tgl_tempat' => $tgl_tempat[$key],
-    //                 'uraian_cipta' => $uraian_cipta[$key],
-    //             ]);
-    //         }
-    //     });
+        $message = 'Data berhasil diperbarui.';
 
-    //     return redirect()->route('Scan-Dokumen');
-    // }
+        return response()->json(['message' => $message]);
+    }
 }

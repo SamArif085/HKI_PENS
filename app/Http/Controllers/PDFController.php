@@ -53,7 +53,9 @@ class PDFController extends Controller
 
             $hasilDokumen = ['data' => $data];
 
-            return redirect()->route('hasil-Dokumen', compact('hasilDokumen'));
+            session(['hasilDokumen' => $hasilDokumen]);
+
+            return redirect()->route('hasil-Dokumen');
         }
 
         return back()->withErrors('Please upload a PDF file.');
@@ -111,12 +113,13 @@ class PDFController extends Controller
         preg_match('/2\.\s*Kewarganegaraan\s*:\s*([^\n]+)/', $text, $matches);
         $kewarganegaraan = trim($matches[1] ?? '');
 
-        preg_match('/3\.\s*Alamat\s*:\s*([^\n]+)/', $text, $matches);
+        preg_match('/3\.\s*Alamat\s*:\s*(.*?)(?:4\.|Telepon :|\n\n|$)/s', $text, $matches);
         $alamat = trim($matches[1] ?? '');
 
         preg_match('/No\. HP & E-mail\s*:\s*([^&]+)/', $text, $matches);
         $email = trim($matches[1] ?? '');
 
+        $alamat = preg_replace('/\s+/', ' ', $alamat);
         return [
             'nama' => $nama,
             'kewarganegaraan' => $kewarganegaraan,

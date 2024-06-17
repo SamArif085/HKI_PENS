@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ScanKTP;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 
 class APIScanKTPController extends Controller
 {
@@ -38,10 +40,9 @@ class APIScanKTPController extends Controller
                     'name' => 'isTable',
                     'contents' => 'true',
                 ],
-            ],'verify'=> false,
+            ], 'verify' => false,
         ]);
         $parsedResults = json_decode($response->getBody()->getContents(), true);
-        // dd($parsedResults);
         $extractedData = [];
         if (is_array($parsedResults)) {
             $nik = $this->extrakNIK($parsedResults);
@@ -56,9 +57,10 @@ class APIScanKTPController extends Controller
                 ];
             }
             $extractedData = array_merge($extractedData, $tempData);
-            // dd($tempData);
+            Cache::put('extracted_data', $extractedData, now()->addMinutes(30));
         }
-        return redirect()->route('hasil-scan-ktp', compact('extractedData'));
+        return redirect()->route('hasil-scan-ktp');
+        // return redirect()->route('hasil-scan-ktp', compact('extractedData'));
     }
 
     private function extrakNIK($parsedResult)
@@ -136,24 +138,51 @@ class APIScanKTPController extends Controller
 
     public function submit(Request $request)
     {
-        $nikArray = $request->nik;
-        $namaArray = $request->nama;
-        $alamatArray = $request->alamat;
+        $data = $request->all();
+        $existingData = DB::table('ktp')
+            ->where('nik', $data['nik'])
+            ->first();
 
-        DB::transaction(function () use ($nikArray, $namaArray, $alamatArray) {
-            foreach ($nikArray as $key => $nik) {
-                if (!empty($nik) && !empty($namaArray[$key]) && !empty($alamatArray[$key])) {
-                    $nama = $namaArray[$key];
-                    $alamat = $alamatArray[$key];
+        if ($existingData) {
+            DB::table('ktp')
+                ->where('id', $existingData->id)
+                ->update([
+                    'nik' => $data['nik'],
+                    'nama' => $data['nama'],
+                    'alamat' => $data['alamat'],
+                ]);
 
-                    DB::table('ktp')->insert([
-                        'nik' => $nik,
-                        'nama' => $nama,
-                        'alamat_lkp' => $alamat,
-                    ]);
-                }
-            }
-        });
-        return redirect()->route('Scan-KTP');
+            $message = 'Data berhasil diperbarui.';
+        } else {
+            DB::table('ktp')->insert([
+                'nik' => $data['nik'],
+                'nama' => $data['nama'],
+                'alamat' => $data['alamat'],
+            ]);
+
+            $message = 'Data berhasil disimpan.';
+        }
+
+        return response()->json(['message' => $message]);
+    }
+
+    public function edit(Request $request)
+    {
+
+        $id = $request->input('id');
+        $nama = $request->input('nama');
+        $nik = $request->input('nik');
+        $alamat = $request->input('alamat');
+
+        $insetrt = ScanKTP::find($id);
+        if (!$insetrt) {
+            return response()->json(['error' => 'Data not found.'], 404);
+        }
+        $insetrt->nama = $nama;
+        $insetrt->nik = $nik;
+        $insetrt->alamat = $alamat;
+        $insetrt->save();
+
+        return response()->json(['message' => 'Data updated successfully.']);
     }
 }
