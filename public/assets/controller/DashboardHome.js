@@ -62,8 +62,8 @@ $(function () {
     // DashboardHome.setDate();
     DashboardHome.select2All();
 });
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("formFile").addEventListener("change", function () {
-        document.getElementById("formFile").submit();
-    });
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.getElementById("formFile").addEventListener("change", function () {
+//         document.getElementById("formFile").submit();
+//     });
+// });

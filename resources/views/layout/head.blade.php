@@ -54,11 +54,13 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
         .my-custom-popup-class-edit-ktp {
             width: 50% !important;
             /* max-height: 65vh; */
             overflow-y: auto;
         }
+
         .my-custom-popup-class-edit-dokumen {
             width: 65% !important;
             max-height: 85vh;
@@ -68,6 +70,7 @@
         .my-custom-content-class {
             width: 1000px !important;
         }
+
         .my-custom-content-class {
             width: 100% !important;
         }
@@ -89,6 +92,35 @@
 
             overflow-y: auto;
 
+        }
+
+        .swal2-popup1 {
+            width: 50%;
+            height: 50%;
+            max-height: 70vh;
+            padding: 0;
+            margin: 0;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .swal2-content {
+            background: transparent;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .swal2-content img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .status-section {
+            float: right;
+            margin-top: 10px;
+            margin-right: 10px;
         }
     </style>
 </head>

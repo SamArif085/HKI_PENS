@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use App\Models\DokumenPermohonanCipta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 
 class ScanDokumenController extends Controller
@@ -25,7 +26,7 @@ class ScanDokumenController extends Controller
             'title' => 'Data Dokumen',
             'cardTitle' => 'Masukan Scan Dokumen',
         ];
-        $data['getDataDokumen'] = DokumenPermohonanCipta::get();
+        $data['getDataDokumen'] = DokumenPermohonanCipta::orderBy('created_at', 'desc')->get();
         $view = view('content/SuratPermohonan/form', $data);
         $put['title_content'] = 'Scan-Dokumen';
         $put['title_top'] = 'Scan-Dokumen';
@@ -36,16 +37,27 @@ class ScanDokumenController extends Controller
         return view('layout.mainLayout', $put);
     }
 
-    public function hasilscan(Request $request)
+    public function hasilscan($cacheKey)
     {
-        $data = $request->all();
-        $data['hasilDokumen'] = session('hasilDokumen');
+        if (!Cache::has($cacheKey)) {
+            return redirect()->route('Scan-Dokumen')->with('error', 'Data has expired. Please start again.');
+        }
+        $dataDokumen = DokumenPermohonanCipta::get();
+        $hasilDokumen = Cache::get($cacheKey);
+        $data['hasilDokumen'] = $hasilDokumen;
+        $existingPencipta = $dataDokumen->map(function ($item) {
+            return [
+                'nama_pencipta' => $item->nama_pencipta,
+                'uraian_cipta' => $item->uraian_cipta,
+            ];
+        })->toArray();
 
         $data['home'] = [
             'title' => 'Data Data Dokumen Permohonan',
             'cardTitle' => 'Hasil Scan Dokumen Permohonan',
         ];
 
+        $data['existingPencipta'] = $existingPencipta;
         $view = view('content/SuratPermohonan/hasil', $data);
 
         $put['title_content'] = 'Scan-KTP';
@@ -55,6 +67,7 @@ class ScanDokumenController extends Controller
         $put['view_file'] = $view;
         return view('layout.mainLayout', $put);
     }
+
 
     public function getDataDokumen(Request $request)
     {

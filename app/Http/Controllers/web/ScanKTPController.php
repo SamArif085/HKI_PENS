@@ -25,7 +25,7 @@ class ScanKTPController extends Controller
             'title' => 'Data KTP',
             'cardTitle' => 'Masukan Scan KTP',
         ];
-        $data['getDataKTP'] = ScanKTP::get();
+        $data['getDataKTP'] = ScanKTP::orderBy('created_at', 'desc')->get();
         $view = view('content/ktp/form', $data);
         $put['title_content'] = 'Scan-KTP';
         $put['title_top'] = 'Scan-KTP';
@@ -42,17 +42,28 @@ class ScanKTPController extends Controller
         if (!$extractedData) {
             return redirect()->back()->with('error', 'No data found in cache.');
         }
+
+        $existingData = ScanKTP::all()->toArray();
+
         $data = [];
         foreach ($extractedData as $index => $extracted) {
             $nik = isset($extracted['nik']) ? $extracted['nik'] : null;
             $nama = isset($extracted['nama']) ? $extracted['nama'] : null;
             $addressDetails = isset($extracted['addressDetails']) ? $extracted['addressDetails'] : null;
+            $isSaved = false;
+            foreach ($existingData as $existing) {
+                if ($existing['nik'] == $nik) {
+                    $isSaved = true;
+                    break;
+                }
+            }
             $data[] = [
                 'title' => 'Data KTP',
                 'cardTitle' => 'Hasil Scan KTP',
                 'nik' => $nik,
                 'nama' => $nama,
                 'addressDetails' => $addressDetails,
+                'is_saved' => $isSaved,
             ];
         }
         $view = view('content/ktp/hasil', compact('data'));
@@ -63,6 +74,7 @@ class ScanKTPController extends Controller
         $put['view_file'] = $view;
         return view('layout.mainLayout', $put);
     }
+
 
     public function getDataKtp(Request $request)
     {

@@ -9,4 +9,12 @@ class ScanKTP extends Model
 {
     use HasFactory;
     protected $table = 'ktp';
+
+
+    protected $fillable = [
+        'nama',
+        'nik',
+        'alamat',
+
+    ];
 }

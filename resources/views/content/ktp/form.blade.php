@@ -1,4 +1,9 @@
 <main id="main" class="main">
+    <div class="float-end status-section">
+        <ul>
+            <small class=""> ✔️ File Support JPEG, PNG, JPG, PDF</small>
+        </ul>
+    </div>
     <div class="pagetitle">
         <h1>Masukkan Foto KTP</h1>
         <nav>
@@ -18,8 +23,12 @@
                     @csrf
                     <label for="formFile" style="color: white" class="form-label mt-3 mb-3">Masukan File Foto KTP
                         disini</label>
-                    <input class="form-control" name="image" type="file" id="formFile">
+                    <input class="form-control" name="image" type="file" id="fileInput">
                 </form>
+                <div class="mt-2">
+                    <small class=" text-white">File max upload 2MB</small>
+
+                </div>
             </div>
         </div>
     </div>
@@ -80,7 +89,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Detail content will be inserted here -->
                     <div id="detail-content-ktp"></div>
                 </div>
                 <div class="modal-footer">
@@ -89,8 +97,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="mb-3 float-end">
         <form id="editForm" action="{{ route('submit-edit-ktp') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -106,3 +112,73 @@
 
     </div> --}}
 </main>
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#fileInput').on('change', function() {
+            var form = $('#formFile')[0];
+            var formData = new FormData(form);
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("scancard") }}',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Your data has been submitted successfully.',
+                            timer: 5000,
+                            timerProgressBar: true,
+                            didClose: () => {
+                                window.location.href = '{{ route("hasil-scan-ktp") }}';
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: response.error || 'Failed to process the image.',
+                            timer: 5000,
+                            timerProgressBar: true,
+                            showConfirmButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                console.log('OK button pressed');
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.responseJSON.error.replace(/\n/g, "<br>");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: errorMessage,
+                        timer: 5000,
+                        timerProgressBar: true,
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        html: errorMessage,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            console.log('OK button pressed');
+                        }
+                    });
+                },
+            });
+        });
+    });
+</script>
+@endsection

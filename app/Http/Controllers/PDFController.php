@@ -4,13 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Smalot\PdfParser\Parser;
+use Illuminate\Support\Facades\Validator;
 
 class PDFController extends Controller
 {
     public function parse(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'pdf_file' => 'required|mimes:pdf|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'File harus berupa PDF dan tidak boleh lebih dari 2MB.');
+        }
+
         if ($request->hasFile('pdf_file')) {
             $pdfFile = $request->file('pdf_file');
+
             $parser = new Parser();
             $pdf = $parser->parseFile($pdfFile);
             $pages = $pdf->getPages();
@@ -54,7 +64,7 @@ class PDFController extends Controller
             $hasilDokumen = ['data' => $data];
 
             session(['hasilDokumen' => $hasilDokumen]);
-
+            usleep(1000000);
             return redirect()->route('hasil-Dokumen');
         }
 
