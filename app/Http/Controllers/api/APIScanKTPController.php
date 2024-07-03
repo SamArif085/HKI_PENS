@@ -15,11 +15,11 @@ class APIScanKTPController extends Controller
     public function scancard(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'image' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1048',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => 'File size exceeds 2MB.'], 400);
+            return response()->json(['error' => 'File size exceeds 1MB.'], 400);
         }
 
         $uploadedImage = $request->file('image');

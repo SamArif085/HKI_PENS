@@ -1,7 +1,7 @@
 <main id="main" class="main">
     <div class="float-end status-section">
         <ul>
-            <small class=""> ✔️ File Support PDF</small>
+            <small class="alert alert-info" role="alert"> ✔️ File Support PDF</small>
         </ul>
     </div>
     <div class="pagetitle">

@@ -8,12 +8,14 @@
             </ol>
         </nav>
     </div>
-    <div class="float-end status-section">
+    <div class="float-end status-section alert alert-info" role="alert">
         <ul>
-            <small>❌ data belum tersimpan didatabase</small>
-        </ul>
-        <ul>
-            <small>✔️ data sudah tersimpan didatabase</small>
+            <li>
+                <small class="text-black">❌ Data belum tersimpan didatabase</small>
+            </li>
+            <li>
+                <small class="text-black">✔️ Data sudah tersimpan didatabase</small>
+            </li>
         </ul>
     </div>
     <div class="txt-dashboard">

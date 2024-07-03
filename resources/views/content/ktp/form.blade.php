@@ -1,7 +1,7 @@
 <main id="main" class="main">
     <div class="float-end status-section">
         <ul>
-            <small class=""> ✔️ File Support JPEG, PNG, JPG, PDF</small>
+            <small class="alert alert-info" role="alert"> ✔️ File Support JPEG, PNG, JPG, PDF</small>
         </ul>
     </div>
     <div class="pagetitle">
@@ -26,10 +26,12 @@
                     <input class="form-control" name="image" type="file" id="fileInput">
                 </form>
                 <div class="mt-2">
-                    <small class=" text-white">File max upload 2MB</small>
-
+                    <small class=" text-white">File max upload 1MB</small>
                 </div>
             </div>
+        </div>
+        <div class="alert alert-warning" role="alert">
+            <b>Perhatian, mohon foto tidak buram atau blur!! 🙏</b>
         </div>
     </div>
     <div class="txt-dashboard mt-3">

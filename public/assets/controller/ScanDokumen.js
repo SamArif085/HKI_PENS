@@ -154,8 +154,8 @@ $(document).on('click', '.btn-detail', function () {
     var button = $(this);
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/get-data-dokumen?nama_pencipta=' + encodeURIComponent(namaPencipta) + '&uraian_cipta=' + encodeURIComponent(uraianCiptaan),
-        // url: 'https://hkipens.pjjaka.com/get-data-dokumen?nama_pencipta=' + encodeURIComponent(namaPencipta) + '&uraian_cipta=' + encodeURIComponent(uraianCiptaan),
+        // url: 'http://127.0.0.1:8000/get-data-dokumen?nama_pencipta=' + encodeURIComponent(namaPencipta) + '&uraian_cipta=' + encodeURIComponent(uraianCiptaan),
+        url: 'https://hkipens.pjjaka.com/get-data-dokumen?nama_pencipta=' + encodeURIComponent(namaPencipta) + '&uraian_cipta=' + encodeURIComponent(uraianCiptaan),
         // url: 'https://sp3hki.pens.pusproset.site/get-data-dokumen?nama_pencipta=' + encodeURIComponent(namaPencipta) + '&uraian_cipta=' + encodeURIComponent(uraianCiptaan),
         type: 'GET',
         success: function (response) {
@@ -311,8 +311,8 @@ ScanDokumen.showDetailModal = function (existingData, scannedData) {
                 uraianCiptaan: uraianCiptaan
             };
             return $.ajax({
-                url: 'http://127.0.0.1:8000/api/submit-scan-dokumen',
-                // url: 'https://hkipens.pjjaka.com/api/submit-scan-dokumen',
+                // url: 'http://127.0.0.1:8000/api/submit-scan-dokumen',
+                url: 'https://hkipens.pjjaka.com/api/submit-scan-dokumen',
                 // url: 'https://sp3hki.pens.pusproset.site/api/submit-scan-dokumen',
                 method: 'POST',
                 data: data,
@@ -430,8 +430,8 @@ $(document).ready(function () {
 
                 return $.ajax({
                     // url: 'http://127.0.0.1:8000/api/submit-edit-dokumen',
-                    // url: 'https://hkipens.pjjaka.com/api/submit-edit-dokumen',
-                    url: 'https://sp3hki.pens.pusproset.site/api/submit-edit-dokumen',
+                    url: 'https://hkipens.pjjaka.com/api/submit-edit-dokumen',
+                    // url: 'https://sp3hki.pens.pusproset.site/api/submit-edit-dokumen',
                     type: 'POST',
                     dataType: 'json',
                     data: {

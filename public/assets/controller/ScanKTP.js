@@ -93,8 +93,8 @@ $(document).on('click', '.btn-detail', function () {
     var alamat = $(this).data('alamat');
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/get-data-ktp?nik=' + nik,
-        // url: 'https://hkipens.pjjaka.com/get-data-ktp?nik=' + nik,
+        // url: 'http://127.0.0.1:8000/get-data-ktp?nik=' + nik,
+        url: 'https://hkipens.pjjaka.com/get-data-ktp?nik=' + nik,
         // url: 'https://sp3hki.pens.pusproset.site/get-data-ktp?nik=' + nik,
         type: 'GET',
         success: function (response) {
@@ -188,8 +188,8 @@ $(document).ready(function () {
                 var nik = $('#edit-nik').val();
                 var alamat = $('#edit-alamat').val();
                 return $.ajax({
-                    url: 'http://127.0.0.1:8000/api/submit-edit-ktp',
-                    // url: 'https://hkipens.pjjaka.com/api/submit-edit-ktp',
+                    // url: 'http://127.0.0.1:8000/api/submit-edit-ktp',
+                    url: 'https://hkipens.pjjaka.com/api/submit-edit-ktp',
                     // url: 'https://sp3hki.pens.pusproset.site/api/submit-edit-ktp',
                     type: 'POST',
                     dataType: 'json',
